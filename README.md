@@ -1,4 +1,4 @@
-# carolinafever
+# Carolina Fever
 
 
 Model of a Mobile IOS app to help UNC students track their fever points, check the fever schedule, submit correction forms,
