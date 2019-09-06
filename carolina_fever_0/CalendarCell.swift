@@ -18,9 +18,4 @@ class CalendarCell: UICollectionViewCell {
     var games = [Game]()
     var date: Date!
     
-    
-    
-    
-    
-    
 }

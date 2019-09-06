@@ -35,9 +35,6 @@ class CorrectionsViewController: UIViewController, UITextFieldDelegate, UIScroll
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       
-        
-        
         scrollView.delegate = self
         
         let screen_size = UIScreen.main.bounds
@@ -237,6 +234,7 @@ class CorrectionsViewController: UIViewController, UITextFieldDelegate, UIScroll
     }
     */
     
+    /*make buttons to pick the type of concern*/
     func configBorders() {
         imageView.layer.borderWidth = 1.0
         imageView.layer.borderColor = UIColor.lightGray.cgColor
@@ -271,12 +269,6 @@ class CorrectionsViewController: UIViewController, UITextFieldDelegate, UIScroll
         otherPointsButton.layer.borderWidth = 1.0
         otherPointsButton.layer.borderColor = CAROLINA_BLUE.cgColor
         otherPointsButton.layer.cornerRadius = 5.0
-        
-        
-        
-       
-        
-        
         
     }
 

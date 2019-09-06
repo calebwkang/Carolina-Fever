@@ -25,7 +25,6 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
         loading.startAnimating()
         loading.hidesWhenStopped = true
@@ -167,7 +166,6 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
         return 80
     }
 
@@ -176,6 +174,7 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         performSegue(withIdentifier: "toCorrections", sender: self)
     }
     
+    /*create the line separatng Log label from tableview*/
     func configLine() {
         let bottomBorder = CAShapeLayer()
         let bottomPath = UIBezierPath()

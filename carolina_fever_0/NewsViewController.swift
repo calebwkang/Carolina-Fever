@@ -38,11 +38,6 @@ class NewsViewController: UIViewController, WKNavigationDelegate {
         htmlString = htmlString!.replacingOccurrences(of: "WIDTH", with: width.description) as NSString
         twitterView.loadHTMLString(htmlString! as String, baseURL: nil)
         
-        /*
-        let url = URL(string: "https://www.tarheeltimes.com")!
-        twitterView.load(URLRequest(url: url))
-         */
-        
         
 
     }
@@ -55,15 +50,5 @@ class NewsViewController: UIViewController, WKNavigationDelegate {
     }
     
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

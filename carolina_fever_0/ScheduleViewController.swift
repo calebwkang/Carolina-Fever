@@ -62,6 +62,7 @@ class ScheduleViewController: UIViewController {
     
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
 
 
@@ -102,7 +103,6 @@ class ScheduleViewController: UIViewController {
                                 
                 
                 self.scheduleSwitcher.selectedSegmentIndex = 0
-                
                 self.addChild(self.listViewController)
                 self.removeChild(viewController: self.calendarViewController)
                 self.removeChild(viewController: self.gameViewController)
@@ -150,34 +150,12 @@ class ScheduleViewController: UIViewController {
     }
     
     
+    /*remove subview from the superview*/
     func removeChild(viewController: UIViewController) {
         viewController.willMove(toParent: nil)
         viewController.view.removeFromSuperview()
         viewController.removeFromParent()
     }
-    
-    
-    
-    
-    
-    
-    // MARK: - Navigation
-
-    /*
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-        
-        if let destination = segue.destination as? ListScheduleViewController {
-            destination.schedule = schedule
-            listView.alpha = 1;
-        } else if let destination = segue.destination as? CalendarScheduleViewController {
-            destination.schedule = schedule
-            listView.alpha = 0;
-        }
-    }
- */
     
 
 }

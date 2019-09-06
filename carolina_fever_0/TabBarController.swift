@@ -19,4 +19,5 @@ class TabBarController: UITabBarController {
         PFUser.logOut()
         performSegue(withIdentifier: "toLogIn", sender: self)
     }
+    
 }

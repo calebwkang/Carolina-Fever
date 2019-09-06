@@ -28,9 +28,6 @@ class ListScheduleViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     
-    
-    
-    
     // MARK: TableView Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         

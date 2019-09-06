@@ -6,6 +6,7 @@
 //  Copyright © 2019 Caleb Kang. All rights reserved.
 //
 
+/*Global Color Variables that's used in all classes*/
 let CAROLINA_BLUE = UIColor(red: 0.482, green: 0.686, blue: 0.831, alpha: 1)
 let CAROLINA_NAVY = UIColor(red: 0.0745, green: 0.161, blue: 0.294, alpha: 1) // RGB:(19,41,75)
 
