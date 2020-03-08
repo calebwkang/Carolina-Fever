@@ -9,6 +9,10 @@
 import UIKit
 import Parse
 
+/*This view controller is the parent view controller
+ of CalendarView and the ListView. This view has a segmental
+ control that switches between the two views so that users can
+ view the schedule in list form and in calenar form*/
 class ScheduleViewController: UIViewController {
 
     // MARK: - Properties
@@ -17,47 +21,45 @@ class ScheduleViewController: UIViewController {
     var isParent = true
     
     // MARK: - Outlets
+    
+    // this switches the schedule type
     @IBOutlet var scheduleSwitcher: UISegmentedControl!
     
-    
-    
     // MARK: - Schedule View Controllers
+    
+    // ListView controller
     lazy var listViewController: ListScheduleViewController = {
+        
+        // get list view and add to this view as a child
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        
         var viewController = storyboard.instantiateViewController(withIdentifier: "ListScheduleViewController") as! ListScheduleViewController
-        
         viewController.schedule = self.schedule
-
-
-        
         self.addChild(viewController)
         
         return viewController
     }()
     
+    // CalendarView controller
     lazy var calendarViewController: CalendarScheduleViewController = {
+        
+        // get calendar view and add to this view as a child
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        
         var viewController = storyboard.instantiateViewController(withIdentifier: "CalendarScheduleViewController") as! CalendarScheduleViewController
-        
-        viewController.schedule = self.schedule
-
-        
+        viewController.schedule = self.schedule;
         self.addChild(viewController)
         
         return viewController
     }()
     
     lazy var gameViewController: GameViewController = {
+        
+        // get GameController and add to the view
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        
         var viewController = storyboard.instantiateViewController(withIdentifier: "GameController") as! GameViewController
-        
-        
         self.addChild(viewController)
         
         return viewController
+        
     }()
     
     
@@ -65,13 +67,12 @@ class ScheduleViewController: UIViewController {
         
         super.viewDidLoad()
 
-
-        
+        // Make Title 'Schedule'
         self.navigationController?.navigationBar.topItem?.title = "Schedule"
         
+        /*Queries server for all FEVER games*/
         let gamesQuery = PFQuery(className: "Game")
         gamesQuery.whereKey("student", equalTo: "")
-        
         gamesQuery.findObjectsInBackground(block: { (objects: [PFObject]?, error: Error?) in
             
             
@@ -93,6 +94,7 @@ class ScheduleViewController: UIViewController {
                     i += 1
                 }
                 
+                /*sorts games by date*/
                 self.schedule.sort(by: { (first: Game, second: Game) -> Bool in
                     let result = first.getDate().compare(second.getDate() as Date)
                     
@@ -102,6 +104,7 @@ class ScheduleViewController: UIViewController {
                 })
                                 
                 
+                /*set the initial view is the LIST schedule view*/
                 self.scheduleSwitcher.selectedSegmentIndex = 0
                 self.addChild(self.listViewController)
                 self.removeChild(viewController: self.calendarViewController)
@@ -118,16 +121,20 @@ class ScheduleViewController: UIViewController {
     
     
     // MARK: - Actions
+    
+
     @IBAction @ objc func scheduleSwitched(_ sender: UISegmentedControl) {
         
-        if scheduleSwitcher.selectedSegmentIndex == 0 {
-            listViewController.schedule = schedule; listViewController.tableView.reloadData()
-            addChild(listViewController)
+        
+        if scheduleSwitcher.selectedSegmentIndex == 0 { // user chooses ListView so display list view
             
+            listViewController.schedule = schedule
+            listViewController.tableView.reloadData()
+            addChild(listViewController)
             removeChild(viewController: gameViewController)
             removeChild(viewController: calendarViewController)
             
-        } else {
+        } else { // user choose calendar view so display calendar view
             addChild(calendarViewController)
             removeChild(viewController: listViewController)
             removeChild(viewController: gameViewController)
@@ -141,11 +148,12 @@ class ScheduleViewController: UIViewController {
         
         super.addChild(childController)
         
+        // child view is added as subview. bounds should match with parent's
         view.addSubview(childController.view)
         childController.view.frame = view.bounds
         childController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        
         childController.didMove(toParent: self)
+        
         
     }
     

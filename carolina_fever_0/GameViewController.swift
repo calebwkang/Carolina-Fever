@@ -8,6 +8,8 @@
 
 import UIKit
 
+/*class so user can top on a game
+ and get more of its details**/
 class GameViewController: UIViewController {
     
     var games = [Game]()
