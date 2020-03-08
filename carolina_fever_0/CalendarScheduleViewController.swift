@@ -17,10 +17,11 @@ import Parse
 class CalendarScheduleViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource  {
     
     // MARK: - Properties
-    
     var schedule = [Game]()
     let calendar = Calendar(identifier: .gregorian)
-    var model = Array<[UICollectionViewCell?]>(repeating: Array<UICollectionViewCell?>(repeating: nil, count: 7), count: 6) // calendar as 2d array of fever games
+    
+    // calendar as 2d array of fever games
+    var model = Array<[UICollectionViewCell?]>(repeating: Array<UICollectionViewCell?>(repeating: nil, count: 7), count: 6)
     var currentDate = Date()
     
     
@@ -36,15 +37,7 @@ class CalendarScheduleViewController: UIViewController, UICollectionViewDelegate
         currentDate = calendar.startOfDay(for: currentDate)
         updateHeader()
         updateData()
-        
-        
-        
     }
-    
-    
-    
-    
-    
     
     // MARK: - Collection View Methods
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -56,6 +49,7 @@ class CalendarScheduleViewController: UIViewController, UICollectionViewDelegate
         return 7
     }
     
+    /*this method renders each calendar view cell*/
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cellModel = model[indexPath.section][indexPath.row] as? CalendarCell {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "calendarCell", for: indexPath) as! CalendarCell
@@ -76,6 +70,8 @@ class CalendarScheduleViewController: UIViewController, UICollectionViewDelegate
         
     }
     
+    /*called when user taps on one of the calendar cells. if the day is a gameday
+     a list view of the game schedule for that day appears*/
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let cell = model[indexPath.section][indexPath.row] as? CalendarCell {
             
@@ -83,13 +79,9 @@ class CalendarScheduleViewController: UIViewController, UICollectionViewDelegate
                 
                 if let parentControl = parent as? ScheduleViewController {
                     
-                    
                     let filteredView = parentControl.listViewController
                     filteredView.schedule = cell.games
                     filteredView.tableView.reloadData()
-                    
-                    
-                    
                     
                     parentControl.addChild(filteredView)
                     parentControl.removeChild(viewController: self)
@@ -97,14 +89,12 @@ class CalendarScheduleViewController: UIViewController, UICollectionViewDelegate
                     parentControl.scheduleSwitcher.selectedSegmentIndex = -1
                 }
                 
-                
-                
             } else {
-                print("no games this day")
+                // there are no games this day
             }
             
         } else {
-            print("day not in the current month")
+            // cell selected not in the current month
         }
     }
     
@@ -112,32 +102,21 @@ class CalendarScheduleViewController: UIViewController, UICollectionViewDelegate
     
     // MARK: - Action Buttons
 
+    /*this method changes calendar to next month*/
     @IBAction func nextPressed(_ sender: UIButton) {
-        
         currentDate = calendar.date(byAdding: Calendar.Component.month, value: 1, to: currentDate, wrappingComponents: false)!
         updateData()
         calendarView.reloadData()
         updateHeader()
     }
     
+    /*this method changes calendar to previous month*/
     @IBAction func previousPressed(_ sender: UIButton) {
         currentDate = calendar.date(byAdding: Calendar.Component.month, value: -1, to: currentDate, wrappingComponents: false)!
         updateData()
         calendarView.reloadData()
         updateHeader()
     }
-    
-    func updateHeader() {
-        
-        var months = ["January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        
-        let month = months[(getCurrentMonth()-1) % 12]
-        
-        monthAndYear.text = "\(month) \(getCurrentYear())"
-    }
-    
-    
-    
     
     // MARK: - Helper Methods
     
@@ -171,6 +150,7 @@ class CalendarScheduleViewController: UIViewController, UICollectionViewDelegate
                     
                     var isAGameDay = false
                     
+                    /*if today is a gameday put fever games on the calendar*/
                     for game in schedule {
                         if calendar.isDate(date!, inSameDayAs: game.date as Date) {
                             
@@ -182,6 +162,7 @@ class CalendarScheduleViewController: UIViewController, UICollectionViewDelegate
                             isAGameDay = true
                         }
                     }
+                    
                     
                     if !isAGameDay {
                         cell.backgroundColor = CAROLINA_BLUE
@@ -197,7 +178,15 @@ class CalendarScheduleViewController: UIViewController, UICollectionViewDelegate
         }
     }
     
+    /*method chooses the correct month string to display**/
+    func updateHeader() {
+        
+        var months = ["January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        let month = months[(getCurrentMonth()-1) % 12]
+        monthAndYear.text = "\(month) \(getCurrentYear())"
+    }
     
+    /*helper methods to get time components**/
     func getCurrentMonth() -> Int {
         return calendar.component(Calendar.Component.month, from: currentDate)
     }
@@ -215,19 +204,5 @@ class CalendarScheduleViewController: UIViewController, UICollectionViewDelegate
         let weekday = calendar.component(Calendar.Component.weekday, from: date)
         return week + weekday
     }
-
-    
-   
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
