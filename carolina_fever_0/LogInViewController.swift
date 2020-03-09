@@ -10,17 +10,17 @@ import UIKit
 import Parse
 
 class LogInViewController: UIViewController, UITextFieldDelegate {
-
     
+    // MARK: Outlets
     @IBOutlet var pidField: UITextField!
     @IBOutlet var passField: UITextField!
-    
     @IBOutlet var checkLogButton: UIButton!
-    
     @IBOutlet var switchLabel: UILabel!
     @IBOutlet var switchButton: UIButton!
     
+    // MARK: Variables
     var isSignUp = true
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,8 +34,10 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
             performSegue(withIdentifier: "toDash", sender: self)
         }
     }
- 
+
+    // MARK: Actions
     
+    /*handles when the user is ready to log in and check points**/
     @IBAction func checkPointsPressed(_ sender: UIButton) {
         self.view.endEditing(true)
         
@@ -62,8 +64,6 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
                 }
             }
             
-            
-            
         } else {
             
             PFUser.logInWithUsername(inBackground: pidField.text!, password: passField.text!) { (user: PFUser?, error: Error?) in
@@ -79,6 +79,8 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    /*this method codes functionality to allow user to switch
+     between logging and signing up**/
     @IBAction func switchPressed(_ sender: Any) {
         
         if isSignUp {
@@ -98,25 +100,21 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
             
             /*give user option to switch back to log in mode*/
             switchButton.setTitle("Log In", for: [])
-            
             switchLabel.text = "Already signed up?"
         }
         
     }
     
+    // MARK: Text Field Delgate
     
-    // MARK: Text field delgate
-    
+    /* *****closes text field when user presses return***** */
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        /* *****closes text field when user presses return***** */
-        
         pidField.resignFirstResponder()
-        
         return true
     }
     
+    /* *****closes text field when user taps outside keyboard***** */
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        /* *****closes text field when user taps outside keyboard***** */
         self.view.endEditing(true)
     }
 
