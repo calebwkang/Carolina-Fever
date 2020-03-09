@@ -8,6 +8,8 @@
 
 import UIKit
 
+/*each object of this class will represent
+ a fever game, with a time, description and number of points**/
 class ContentTableViewCell: UITableViewCell {
 
     @IBOutlet var date: UILabel!
@@ -21,7 +23,6 @@ class ContentTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         self.selectionStyle = UITableViewCell.SelectionStyle.none
     }
 

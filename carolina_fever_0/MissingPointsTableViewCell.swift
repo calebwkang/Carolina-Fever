@@ -8,6 +8,9 @@
 
 import UIKit
 
+/*this cell simply contains a button for user to
+ segue to the correction view. This cell appears
+ at the end of the user's game log              */
 class MissingPointsTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {

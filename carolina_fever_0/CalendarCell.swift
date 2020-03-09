@@ -8,14 +8,13 @@
 
 import UIKit
 
+/*simple abstraction of a cell in a calendar**/
 class CalendarCell: UICollectionViewCell {
     
     @IBOutlet var dateNumber: UILabel!
     @IBOutlet var event: UILabel!
     
-    
     var isGameDay = false
     var games = [Game]()
     var date: Date!
-    
 }

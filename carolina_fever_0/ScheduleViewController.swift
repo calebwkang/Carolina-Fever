@@ -61,8 +61,7 @@ class ScheduleViewController: UIViewController {
         return viewController
         
     }()
-    
-    
+
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -74,7 +73,6 @@ class ScheduleViewController: UIViewController {
         let gamesQuery = PFQuery(className: "Game")
         gamesQuery.whereKey("student", equalTo: "")
         gamesQuery.findObjectsInBackground(block: { (objects: [PFObject]?, error: Error?) in
-            
             
             if let games = objects {
                 
@@ -97,35 +95,21 @@ class ScheduleViewController: UIViewController {
                 /*sorts games by date*/
                 self.schedule.sort(by: { (first: Game, second: Game) -> Bool in
                     let result = first.getDate().compare(second.getDate() as Date)
-                    
-                    
                     return result == ComparisonResult.orderedAscending
-                    
                 })
-                                
                 
                 /*set the initial view is the LIST schedule view*/
                 self.scheduleSwitcher.selectedSegmentIndex = 0
                 self.addChild(self.listViewController)
                 self.removeChild(viewController: self.calendarViewController)
                 self.removeChild(viewController: self.gameViewController)
-                
-                
             }
         })
-        
-        
-        
-        
     }
     
-    
     // MARK: - Actions
-    
 
     @IBAction @ objc func scheduleSwitched(_ sender: UISegmentedControl) {
-        
-        
         if scheduleSwitcher.selectedSegmentIndex == 0 { // user chooses ListView so display list view
             
             listViewController.schedule = schedule
@@ -141,8 +125,6 @@ class ScheduleViewController: UIViewController {
         }
     }
     
-    
-    
     // MARK: - Helper Methods
     override func addChild(_ childController: UIViewController) {
         
@@ -153,18 +135,13 @@ class ScheduleViewController: UIViewController {
         childController.view.frame = view.bounds
         childController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         childController.didMove(toParent: self)
-        
-        
     }
-    
-    
+
     /*remove subview from the superview*/
     func removeChild(viewController: UIViewController) {
         viewController.willMove(toParent: nil)
         viewController.view.removeFromSuperview()
         viewController.removeFromParent()
     }
-    
-
 }
 

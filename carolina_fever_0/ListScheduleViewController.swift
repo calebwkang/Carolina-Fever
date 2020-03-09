@@ -76,8 +76,6 @@ class ListScheduleViewController: UIViewController, UITableViewDelegate, UITable
                 return cell
                 
             }
-            
-            
         }
         
         let cell = UITableViewCell()
