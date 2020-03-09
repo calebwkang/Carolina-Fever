@@ -11,6 +11,7 @@ import Parse
 
 class CorrectionsViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
     
+    // MARK: Outlets and Fields
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var eventField: UITextField!
 
@@ -22,16 +23,17 @@ class CorrectionsViewController: UIViewController, UITextFieldDelegate, UIScroll
     var imagePicker: UIImagePickerController!
     @IBOutlet var contentView: UIView!
     
-    
+    /*Four buttons for the user to choose
+     which kind of concern they have*/
     @IBOutlet var wholePointsButton: UIButton!
     @IBOutlet var halfPointsButton: UIButton!
     @IBOutlet var footballPointsButton: UIButton!
     @IBOutlet var otherPointsButton: UIButton!
     
     var concernedPressed = false
-    
     let DEFAULT_BACKGROUND_COLOR = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
     
+    // MARK: View Loading
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,35 +45,27 @@ class CorrectionsViewController: UIViewController, UITextFieldDelegate, UIScroll
         let bigger_content = CGSize(width: width, height: 900)
         scrollView.contentSize = bigger_content
         
-        
         let tap = UITapGestureRecognizer(target: self, action: #selector(CorrectionsViewController.needToDismissKeyboard))
         tap.cancelsTouchesInView = false
         self.contentView.addGestureRecognizer(tap)
         
-        
         configBorders()
-        
     }
     
+    // MARK: Actions
     
-    
-    
+    /*allows user to sumbit photo proof of game attendance*/
     @IBAction func selectPhotoPressed(_ sender: UIButton) {
-      
-        
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.allowsEditing = false
         imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
         
         self.present(imagePicker, animated: true, completion: nil)
-      
-        
     }
     
-    
-    
-    
+    /*called when user is ready to submit corrections form. This method ensures all info is present
+     the it will make a corrections object with all information and save to the parse server      */
     @IBAction func submitPressed(_ sender: UIButton) {
         
         if eventField.text == "" || (imageView.image == nil && detailsField!.text == "") {
@@ -84,7 +78,6 @@ class CorrectionsViewController: UIViewController, UITextFieldDelegate, UIScroll
         } else {
         
             /*all information is present*/
-            
             let correction = PFObject(className: "Correction")
             correction["event"] = eventField.text
             
@@ -96,13 +89,8 @@ class CorrectionsViewController: UIViewController, UITextFieldDelegate, UIScroll
                 
             }
             
-            
-            
             correction["details"] = detailsField.text
             correction["otherConcern"] = otherField.text
-            
-         
-            
             
             correction.saveInBackground { (sucess: Bool, error: Error?) in
                 if sucess {
@@ -116,6 +104,8 @@ class CorrectionsViewController: UIViewController, UITextFieldDelegate, UIScroll
  
     }
     
+    /*called when user selected a concern. It changes the color and
+     font color of the buttons to indicate the user's choice    **/
     @IBAction func concernPicked(_ sender: UIButton) {
         concernedPressed = true
         
@@ -180,59 +170,44 @@ class CorrectionsViewController: UIViewController, UITextFieldDelegate, UIScroll
                 
                 otherField.alpha = 1
                 break
+            
             default:
                 print("button not supported!")
-            
-            }
+        }
+        
     }
     
-    
+    // MARK: Image Picker
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             imageView.image = image
         }
-        
         self.dismiss(animated: true, completion: nil)
     }
+    
+    // MARK: Text View and Keyboard Methods
+    
+    /* *****closes text field when user presses return***** */
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+       
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        textView.text = ""
+    }
+       
+    @objc func needToDismissKeyboard() {
+        contentView.endEditing(true)
+    }
+    
+    // MARK: Helper Methods
     
     func displayAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
         alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        /* *****closes text field when user presses return***** */
-        
-        textField.resignFirstResponder()
-        
-        return true
-    }
-    
-   
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        textView.text = ""
-    }
-    
-    
-    @objc func needToDismissKeyboard() {
-        contentView.endEditing(true)
-    }
-    
-    
-   
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     /*make buttons to pick the type of concern*/
     func configBorders() {
@@ -269,7 +244,6 @@ class CorrectionsViewController: UIViewController, UITextFieldDelegate, UIScroll
         otherPointsButton.layer.borderWidth = 1.0
         otherPointsButton.layer.borderColor = CAROLINA_BLUE.cgColor
         otherPointsButton.layer.cornerRadius = 5.0
-        
     }
 
 }
