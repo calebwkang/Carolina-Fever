@@ -8,6 +8,9 @@
 
 import UIKit
 
+
+/*a list view of a fever game. has game time,
+ opponent, number of points etc**/
 class ListScheduleCell: UITableViewCell {
     
     @IBOutlet var dateLabel: UILabel!
@@ -23,7 +26,6 @@ class ListScheduleCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         self.selectionStyle = UITableViewCell.SelectionStyle.none
     }
 
