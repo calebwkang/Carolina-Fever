@@ -10,29 +10,30 @@ import UIKit
 import Parse
 
 class DashboardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
+
+    // list of games current user has attended
     var log = [Game]()
     
+    // MARK: Outlets
     @IBOutlet var points: UILabel!
     @IBOutlet var rank: UILabel!
-    
     @IBOutlet var loading: UIActivityIndicatorView!
-    
     @IBOutlet var logLabel: UILabel!
     @IBOutlet var gamesLog: UITableView!
     
-    
-    
+    // MARK: View
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Loading animation
         loading.startAnimating()
         loading.hidesWhenStopped = true
         UIApplication.shared.beginIgnoringInteractionEvents()
-        
         gamesLog.isHidden = true
         
-        
+        /*queries server for the game log of the current user
+         add up all the points earned. then displays number of
+         points and calculates rank                       **/
         if let user = PFUser.current() {
             if let username = user.username {
                 
@@ -42,10 +43,8 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
                 gamesQuery.findObjectsInBackground(block: { (objects: [PFObject]?, error: Error?) in
                     
                     var points = 0
-                    
-                    
+                
                     if let games = objects {
-                        print(games)
                         
                         var i = 0;
                         
@@ -61,7 +60,7 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
                                 points += Int(exactly: point)!
                                 
                             } catch {
-                                print("couldnt fetch game object")
+                                // couldn't fetch game object
                             }
                             
                             i += 1
@@ -93,8 +92,6 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         
         configLine()
-        
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -107,27 +104,24 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
-    
-    // MARK: TableView Methods
+    // MARK: TableView
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return log.count+1
     }
     
+    /*this method fills in the game log**/
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if log.count == 0 {
             
-            /*log hasnt been queried yet so return empty cell*/
-            
+            /*parse hasnt been queried yet so return empty cell*/
             let cell = UITableViewCell()
-            
             return cell
-            
             
         } else if indexPath.row < log.count {
             
-            /*fill all cells with Content view, except for last row*/
+            /*fill all cells with game content, except for last row*/
             if let cell = tableView.dequeueReusableCell(withIdentifier: "content") as? ContentTableViewCell {
                 
                 let game = log[indexPath.row]
@@ -142,13 +136,12 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
                 
                 cell.date.text = String(date_str)
                 cell.gameString.text = String(game.getDescription())
+                
                 if let integer = game.getPoints() as? Int {
                     cell.points.text = String(integer)
                 }
                 
-                
                 return cell
-            
             }
            
         } else if indexPath.row == log.count {
@@ -161,20 +154,25 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         
         
         return UITableViewCell()
-       
-    
     }
     
+    /*default height for a cell**/
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
 
+    // MARK: Actions
+    
+    /*actions executed when the user is missing points. Makes
+     segue to the corrections form view controller       **/
     @IBAction func missingPointsPressed(_ sender: UIButton) {
         self.navigationController?.navigationBar.topItem?.title = "Dashboard"
         performSegue(withIdentifier: "toCorrections", sender: self)
     }
     
-    /*create the line separatng Log label from tableview*/
+    // MARK: Helper Methods
+    
+    /*create the line separatng game log label from tableview*/
     func configLine() {
         let bottomBorder = CAShapeLayer()
         let bottomPath = UIBezierPath()
@@ -186,8 +184,5 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         bottomBorder.fillColor = UIColor.white.cgColor
         logLabel.layer.addSublayer(bottomBorder)
     }
-    
-    
-    
 }
 
