@@ -8,6 +8,9 @@
 
 import UIKit
 
+/*simple abtraction for a fever game
+ has a student, number of points, date, location
+ name of sport, and a description to go with it**/
 class Game: NSObject {
     
     let date: NSDate
@@ -20,8 +23,6 @@ class Game: NSObject {
     init(_ student: NSString, _ date: NSDate, _ description: NSString, _ points: NSNumber, _ location: NSString, _ sport: NSString) {
         self.date = date; self.string = description; self.points = points; self.student = student; self.location = location; self.sport = sport
     }
-    
-    
     
     func getDate() -> NSDate {
         return date
