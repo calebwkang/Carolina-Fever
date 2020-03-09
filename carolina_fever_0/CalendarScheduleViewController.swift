@@ -186,7 +186,7 @@ class CalendarScheduleViewController: UIViewController, UICollectionViewDelegate
         monthAndYear.text = "\(month) \(getCurrentYear())"
     }
     
-    /*helper methods to get time components**/
+    /*helper methods to get time components*/
     func getCurrentMonth() -> Int {
         return calendar.component(Calendar.Component.month, from: currentDate)
     }

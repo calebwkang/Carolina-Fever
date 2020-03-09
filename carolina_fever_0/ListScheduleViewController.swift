@@ -34,6 +34,7 @@ class ListScheduleViewController: UIViewController, UITableViewDelegate, UITable
         return schedule.count
     }
     
+    /*this method fills each table view cell with game information**/
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if schedule.count != 0 {
@@ -79,13 +80,12 @@ class ListScheduleViewController: UIViewController, UITableViewDelegate, UITable
             
         }
         
-        
         let cell = UITableViewCell()
         
         return cell
     }
     
-    
+    /*default values for tableview config**/
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -93,19 +93,6 @@ class ListScheduleViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 114
     }
-    
 
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
