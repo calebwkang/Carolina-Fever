@@ -24,8 +24,6 @@ class CalendarScheduleViewController: UIViewController, UICollectionViewDelegate
     var model = Array<[UICollectionViewCell?]>(repeating: Array<UICollectionViewCell?>(repeating: nil, count: 7), count: 6)
     var currentDate = Date()
     
-    
-    
     // MARK: - Outlets
     @IBOutlet var monthAndYear: UILabel!
     @IBOutlet var calendarView: UICollectionView!
@@ -65,9 +63,6 @@ class CalendarScheduleViewController: UIViewController, UICollectionViewDelegate
         } else {
             return collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
         }
-        
-        
-        
     }
     
     /*called when user taps on one of the calendar cells. if the day is a gameday
@@ -97,8 +92,6 @@ class CalendarScheduleViewController: UIViewController, UICollectionViewDelegate
             // cell selected not in the current month
         }
     }
-    
-    
     
     // MARK: - Action Buttons
 

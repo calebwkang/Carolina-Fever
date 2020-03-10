@@ -56,10 +56,9 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
                 
                 user.signUpInBackground { (succeeded: Bool, error: Error?) in
                     if succeeded {
-                        print("You are signed up!")
                         self.performSegue(withIdentifier: "toDash", sender: self)
                     } else {
-                        print(error!)
+                        //error
                     }
                 }
             }
@@ -72,8 +71,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
                     self.performSegue(withIdentifier: "toDash", sender: self)
                     
                 } else {
-                    // The login failed. Check error to see why.
-                    print(error!)
+                    // The login failed.
                 }
             }
         }
